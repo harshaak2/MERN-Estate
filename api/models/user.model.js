@@ -5,5 +5,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
     }
-})
+// adds the timestamp of the user creation too
+}, {timestamps: true});
+
+const User = mongoose.model('User', userSchema);
+
+export default User;
+// exporting the model to use it anywhere else in the application.
