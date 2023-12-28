@@ -59,6 +59,7 @@ export const signin = async (req, res, next) => {
             return next(errorHandler(401, "Invalid Credentials!"));
         }
 
+        // after all the successful validations, we create a token
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
 
         // destructuring using ._doc to hide the hashedPassword when the POST request is made
