@@ -4,6 +4,7 @@ import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 
 export const signup = async (req, res, next) => {
+    
     // req.body is the information that we get from the browser
     const { username, email, password } = req.body;
     // 10 is the salt value
@@ -28,8 +29,7 @@ export const signup = async (req, res, next) => {
             return next(errorHandler(error.statusCode, 'error from the function'));
         }
     }
-    
 
     // adding status 201 to make sure that something is created
-    res.status(201).json("User created successfully!");
+    // res.status(201).json("User created successfully!");
 };
