@@ -44,7 +44,7 @@ export default function SignIn() {
             setLoading(false);
             setError(null);
             navigate('/')
-            console.log(data);
+            // console.log(data);
         } catch (error) {
           setLoading(false);
           setError(error.message);
