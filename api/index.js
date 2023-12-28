@@ -30,3 +30,15 @@ app.listen(3000, () => {
 //* It provides a more structured approach for handling different routes and HTTP methods by splitting them into separate modules or files
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
+
+// creating a middleware
+app.use((err, req, res, next) => {
+    // get a statusCode from the error or use 500(internal server error)
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    return res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message
+    })
+})
