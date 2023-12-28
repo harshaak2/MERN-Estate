@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    password: {
+    hashedPassword: {
         type: String,
         required: true,
     }
@@ -20,5 +20,5 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-export default User;
 // exporting the model to use it anywhere else in the application.
+export default User;
