@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+//* useDispatch is used to dispatch the function that we have
+//* useSelector is used to extract and subscribe to parts of redux state within a functional component
+import { useDispatch, useSelector } from "react-redux"; 
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 
 export default function SignIn() {
 
     const [formData, setFormData] = useState({});
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    // const [error, setError] = useState(null);
+    // const [loading, setLoading] = useState(false);
+    //* useSelector takes in the entire Redux state and returns the specific part of the state the component needs (user here)
+    //* user is from userSlice.js
+    //* destructuring the state object received from the user slice into variables 'loading' and 'error'
+    const {loading, error} = useSelector((state) => state.user);
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
     const handleChange = (event) => {
         setFormData({
             ...formData, //existing formData
@@ -18,10 +28,10 @@ export default function SignIn() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            setLoading(true);
+            // setLoading(true);
+            dispatch(signInStart());
 
             // created a proxy server in vite.config.js for the route /api
-
             //* fetch is used to make an asynchronous HTTP POST req to the route /api/auth/signup -- refer auth.route, auth.controller
             //* method: POST specifies that it is a POST method
             //* 'Content-Type' set to 'application/json' indicates that the req body is in json format
@@ -37,17 +47,20 @@ export default function SignIn() {
             });
             const data = await response.json();
             if (data.success === false) {
-                setLoading(false);
-                setError(data.message);
+                // setLoading(false);
+                // setError(data.message);
+                dispatch(signInFailure(data.message));
                 return;
             }
-            setLoading(false);
-            setError(null);
+            // setLoading(false);
+            // setError(null);
+            dispatch(signInSuccess());
             navigate('/')
             // console.log(data);
         } catch (error) {
-          setLoading(false);
-          setError(error.message);
+          // setLoading(false);
+          // setError(error.message);
+          dispatch(signInFailure(error.message))
         }
     };
     // console.log(formData);
