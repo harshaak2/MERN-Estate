@@ -12,13 +12,26 @@
 //* Reducer Handling: Reducers take the current state and action returning a new state based on the action type.
 //* State Update: The store holds the new state and notifies any subscribed components of the state change.
 
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from './user/userSlice';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from "redux-persist/lib/storage";
+
+const rootReducer = combineReducers({user: userReducer})
+
+const persistConfig = {
+    key: 'root',
+    storage, 
+    version: 1,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 //* store is being created using configureStore
 export const store = configureStore({
     //* reducer is where we combine multiple reducers using combineReducers.
-    reducer: {user: userReducer},
+    // reducer: {user: userReducer},
+    reducer: persistedReducer,
     //* middleware allows us to customize the middleware that is applied to the store.
     //* getDefaultMiddleware is the function that retrieves the default set of middleware
     middleware: (getDefaultMiddleware) =>
@@ -27,3 +40,5 @@ export const store = configureStore({
             serializableCheck: false,
         }),
 });
+
+export const persistor = persistStore(store);

@@ -32,7 +32,7 @@ const userSlice = createSlice({
         //* this reducer handles the action dispatched when the sign-in process is successful
         //* executed when the auth process succeeds allowing the application to update the current user data in the state
         signInSuccess: (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload); // --> undefined
             state.currentUser = action.payload; //updates state.currentUser with the user data received from the action payload
             state.loading = false; // indicates that the sign-in process has completed
             state.error = null; // resets error to null (if there was any previous error)
