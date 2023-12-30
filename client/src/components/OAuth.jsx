@@ -32,6 +32,7 @@ export default function OAuth() {
             const data = await response.json();
             dispatch(signInSuccess(data));
             navigate("/");
+            console.log(result.user.photoURL);
         } catch (error) {
             console.log("could not connect with google", error);
         }
